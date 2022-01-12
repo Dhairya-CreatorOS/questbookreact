@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
