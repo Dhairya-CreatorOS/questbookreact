@@ -6,6 +6,7 @@ import {
   metamaskHandleAddressChangeListener,
 } from "../Utils/MetamaskUtils";
 import GrantManagerContract from "../Contract/GrantManagerContract";
+import GrantManagerSubgraph from "../Contract/GrantManagerSubgraph";
 
 const Home = () => {
   
@@ -38,6 +39,17 @@ const Home = () => {
     const contract = new GrantManagerContract(provider);
     setContract(contract);
   }, [provider]);
+
+  const [subgraph, setSubgraph] = useState(null);
+  useEffect(() => {
+    const subgraph = new GrantManagerSubgraph();
+    setSubgraph(subgraph);
+  }, []);
+
+  const getGrantsCount = async() => {
+    const count = await subgraph.getGrantsCount();
+    console.log(count);
+  }
 
   const getGrants = async() => {
     const a = await contract.getAllGrants();
@@ -91,6 +103,7 @@ const Home = () => {
         :
         <>
         <div>{contract.address}</div>
+        <button onClick={() => getGrantsCount()}>get number grants</button>
         <button onClick={() => getGrants()}>get all grants</button>
         <button onClick={() => createGrant()}>create grant</button>
         <button onClick={() => fulfillGrant()}>fulfill grant</button>
