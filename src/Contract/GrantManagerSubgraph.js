@@ -8,10 +8,10 @@ const grantsCountQuery = `
     }
   }
 `;
-
+const pageSize = 100;
 const getAllGrantsQuery = `
   query{
-    grants(first: 1000, skip: **) {
+    grants(first: ${pageSize}, skip: **) {
       id
       owner
       payee
@@ -19,7 +19,7 @@ const getAllGrantsQuery = `
       amount
     }
   }
-`
+`;
 
 class GrantManagerSubgraph {
   constructor() {
@@ -41,12 +41,12 @@ class GrantManagerSubgraph {
   
   async getAllGrants() {
     const newQuery = getAllGrantsQuery.replace("**", this.skipped);
-    console.log(newQuery);
+    //console.log(newQuery);
     const data = await this.client.query({
       query: gql(newQuery),
     });
-    console.log(data);
-    this.skipped += 1000;
+    //console.log(data);
+    this.skipped += pageSize;
     return data;
   }
 }
