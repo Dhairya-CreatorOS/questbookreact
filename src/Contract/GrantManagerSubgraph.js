@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import config from "./config";
 
 const grantsCountQuery = `
@@ -23,8 +23,10 @@ const getAllGrantsQuery = `
 
 class GrantManagerSubgraph {
   constructor() {
+    
+    const link = new HttpLink({uri: config.subgraphUri});
     const client = new ApolloClient({
-      uri: config.subgraphUri,
+      link: link,
       cache: new InMemoryCache(),
     });
     this.client = client;
