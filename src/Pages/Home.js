@@ -51,18 +51,13 @@ const Home = () => {
     console.log(count);
   }
 
-  const getGrants = async() => {
-    const a = await contract.getAllGrants();
-    console.log(a);
-  }
-
   const createGrant = async() => {
     const a = await contract.createGrant(address, "data", "0.002");
     console.log(a);
   }
 
   const fulfillGrant = async() => {
-    const a = await contract.fulfillGrant(0, "0x43Cb32825f0A1CBaC2fd6B11a18f46aa81D142f4");
+    const a = await contract.fulfillGrant(1, "0x43Cb32825f0A1CBaC2fd6B11a18f46aa81D142f4");
     console.log(a);
   }
 
@@ -96,6 +91,8 @@ const Home = () => {
       <br />
       <br />
 
+      
+
       <div>Contract</div>
 
       {contract == null ? 
@@ -104,7 +101,6 @@ const Home = () => {
         <>
         <div>{contract.address}</div>
         <button onClick={() => getGrantsCount()}>get number grants</button>
-        <button onClick={() => getGrants()}>get all grants</button>
         <button onClick={() => createGrant()}>create grant</button>
         <button onClick={() => fulfillGrant()}>fulfill grant</button>
         </>

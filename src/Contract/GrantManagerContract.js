@@ -19,10 +19,12 @@ class GrantManagerContract {
     }
 
     async createGrant(owner, data, amount) {
-        //const dai = ethers.utils.parseUnits(amount, 18);
+        // const dai = ethers.utils.parseUnits(amount, 18);
+        // const hash = IpfsUtils.generateHash(data);
         const options = {value: ethers.utils.parseEther(amount)}
         const tx = await this.signedContract.createGrant(owner, [0, data], options);
 
+        // hit end point to pinning service
         return tx;
     }
 

@@ -7,7 +7,6 @@ const grantsCountQuery = `
   query {
     
     grantCounts(first: 1) {
-      id
       count
     }
   }
