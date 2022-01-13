@@ -8,6 +8,7 @@ import {
 import GrantManagerContract from "../Contract/GrantManagerContract";
 import GrantManagerSubgraph from "../Contract/GrantManagerSubgraph";
 import CreateGrant from "../Components/CreateGrant";
+import { Fragment } from "react/cjs/react.production.min";
 
 const Home = () => {
   const [error, setError] = useState(null);
@@ -46,6 +47,39 @@ const Home = () => {
     setSubgraph(subgraph);
   }, []);
 
+  const getGrantsCount = async () => {
+    const count = await subgraph.getGrantsCount();
+    console.log(count);
+  };
+
+  const [grants, setGrants] = useState([]);
+  const getAllGrants = async () => {
+    const grantsData = await subgraph.getAllGrants();
+    const _grants = grantsData["data"]["grants"];
+    console.log(_grants);
+
+    console.log(_grants.length);
+    console.log(typeof _grants);
+    console.log(_grants[0]);
+
+    setGrants([]);
+    let arr = [];
+    for (let i = 0; i < grants.length; ++i) arr.push(grants[i]);
+    for (let i = 0; i < _grants.length; ++i) arr.push(_grants[i]);
+    setGrants(arr);
+    // _grants.push.apply(_grants, grants);
+    // setGrants(_grants);
+    // console.log(grants);
+  };
+  // useEffect(() => {
+  //   getAllGrants();
+  // }, [subgraph]);
+
+  const createGrant = async () => {
+    const a = await contract.createGrant(address, "data", "0.002");
+    console.log(a);
+  };
+
   const fulfillGrant = async () => {
     const a = await contract.fulfillGrant(
       1,
@@ -70,32 +104,73 @@ const Home = () => {
 
   return (
     <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
     >
-      {address == null ? (
-        <button onClick={connectMetamask}>Connect to MetaMask</button>
-      ) : (
-        <>
-          {address}
-          <button onClick={() => setAddress(null)}>disconnect</button>
-        </>
-      )}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "60%",
+          height: "100%",
+        }}
+      >
+        {/* TODO 1: Fetch and display all grants from the graph */}
+        {grants.map((grant, i) => (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <text>Grant ID - {grant["id"]}</text>
+            <text>Grant Data - {grant["data"]}</text>
+            <text>Grant Owner - {grant["owner"]}</text>
+            <text>
+              Grant Payee -{" "}
+              {grant["payee"] == "" ? "Grant not completed" : grant["payee"]}
+            </text>
+            <text>Grant amount - {grant["amount"] / 1e18} ETH</text>
+            <br />
+          </div>
+        ))}
+        <button onClick={() => getAllGrants()}>load more</button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "40%",
+          height: "100%",
+        }}
+      >
+        {address == null ? (
+          <button onClick={connectMetamask}>Connect to MetaMask</button>
+        ) : (
+          <>
+            {address}
+            <button onClick={() => setAddress(null)}>disconnect</button>
+          </>
+        )}
 
-      <br />
-      <br />
+        <br />
+        <br />
 
-      <div>Contract</div>
+        <div>Contract</div>
 
-      {address == null || contract == null ? (
-        <div>connect to metamask to access contract</div>
-      ) : (
-        <>
-          <div>{contract.address}</div>
-          <CreateGrant contract={contract} address={address} />
-          <hr />
-          <button onClick={() => fulfillGrant()}>fulfill grant</button>
-        </>
-      )}
+        {address == null || contract == null ? (
+          <div>connect to metamask to access contract</div>
+        ) : (
+          <>
+            <div>{contract.address}</div>
+            <CreateGrant contract={contract} address={address} />
+            <hr />
+            <button onClick={() => fulfillGrant()}>fulfill grant</button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
