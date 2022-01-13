@@ -9,6 +9,7 @@ import GrantManagerContract from "../Contract/GrantManagerContract";
 import GrantManagerSubgraph from "../Contract/GrantManagerSubgraph";
 import CreateGrant from "../Components/CreateGrant";
 import { Fragment } from "react/cjs/react.production.min";
+import FulfillGrant from "../Components/FulfillGrant";
 
 const Home = () => {
   const [error, setError] = useState(null);
@@ -167,7 +168,7 @@ const Home = () => {
             <div>{contract.address}</div>
             <CreateGrant contract={contract} address={address} />
             <hr />
-            <button onClick={() => fulfillGrant()}>fulfill grant</button>
+            <FulfillGrant contract={contract} />
           </>
         )}
       </div>

@@ -15,14 +15,17 @@ const CreateGrant = ({address, contract}) => {
       setLoading(false);
       return;
     }
-    const a = await contract.createGrant(ownerAddress, grantDetails, grantAmount);
-    console.log(a);
+    const txn = await contract.createGrant(ownerAddress, grantDetails, grantAmount);
+    const result = await txn.wait();
+    console.log(result);
 
     setLoading(false);
     setOwnerAddress('');
     setGrantDetails('');
     setGrantAmount('');
   };
+
+  
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
