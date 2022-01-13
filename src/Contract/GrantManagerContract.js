@@ -22,7 +22,7 @@ class GrantManagerContract {
 
     const added = await this.client.add(data, {onlyHash: true});
     console.log(added);
-    const hash = added.path;
+    const hash = added.cid.toString();
     console.log(hash.toString());
     console.log(owner);
 
