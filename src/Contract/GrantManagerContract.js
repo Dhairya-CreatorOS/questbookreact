@@ -22,8 +22,8 @@ class GrantManagerContract {
     async createGrant(owner, data, amount) {
         // const dai = ethers.utils.parseUnits(amount, 18);
         // TODO 3: Upload data to IPFS and get the hash and call API endpoint
-        IPFS.ipfsConnect();
-        const hash = IPFS.ipfsUpload(data);
+        await IPFS.ipfsConnect();
+        const hash = await IPFS.ipfsUpload(data);
         const options = {value: ethers.utils.parseEther(amount)}
         const tx = await this.signedContract.createGrant(owner, [hash, data], options);
 
