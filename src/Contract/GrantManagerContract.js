@@ -20,7 +20,7 @@ class GrantManagerContract {
     // const dai = ethers.utils.parseUnits(amount, 18);
     // TODO 3: Upload data to IPFS and get the hash and call API endpoint
 
-    const added = await this.client.add(data, {onlyHash: true});
+    const added = await this.client.add(data);
     console.log(added);
     const hash = added.cid.toString();
     console.log(hash.toString());
