@@ -13,18 +13,27 @@ const Home = () => {
 
   const [error, setError] = useState(null);
   const [provider, setProvider] = useState(null);
-  useEffect(() => {
+  // useEffect(() => {
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // console.log(provider)
+    // if (provider != null) {
+    //   setProvider(provider);
+    // } else {
+    //   setError('Web3 provider unavailable');
+    // }
+  // }, []);
+
+  const [address, setAddress] = useState(null);
+  const connectMetamask = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     console.log(provider)
     if (provider != null) {
       setProvider(provider);
+      metamaskConnect(provider, setAddress, setError);
     } else {
       setError('Web3 provider unavailable');
     }
-  }, []);
-
-  const [address, setAddress] = useState(null);
-  const connectMetamask = async () => metamaskConnect(provider, setAddress, setError);
+  };
   const handleAddressChange = useCallback(
     (accounts) => metamaskHandleAddressChange(accounts, setAddress),
     [setAddress]
@@ -93,14 +102,6 @@ const Home = () => {
     )
   }
 
-  if (provider == null) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        loading
-      </div>
-    )
-  }
-
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '60%', height: '100%' }}>
@@ -124,7 +125,6 @@ const Home = () => {
             <button onClick={() => setAddress(null)}>disconnect</button>
           </>
         }
-
         <br />
         <br />
 

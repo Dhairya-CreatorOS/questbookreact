@@ -1,7 +1,5 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-
-const APIURL =
-  "https://api.thegraph.com/subgraphs/name/dhairya-creatoros/grant-manager-subgraph";
+import config from "./config";
 
 const grantsCountQuery = `
   query {
@@ -26,7 +24,7 @@ const getAllGrantsQuery = `
 class GrantManagerSubgraph {
   constructor() {
     const client = new ApolloClient({
-      uri: APIURL,
+      uri: config.subgraphUri,
       cache: new InMemoryCache(),
     });
     this.client = client;
