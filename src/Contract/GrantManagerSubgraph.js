@@ -8,7 +8,7 @@ const grantsCountQuery = `
     }
   }
 `;
-const pageSize = 100;
+const pageSize = 3;
 const getAllGrantsQuery = `
   query{
     grants(first: ${pageSize}, skip: **) {
